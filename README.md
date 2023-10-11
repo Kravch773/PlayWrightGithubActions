@@ -1,2 +1,0 @@
-# PlayWrightBrowserStackDemoqa
-PlayWrightBrowserStackDemoqa
