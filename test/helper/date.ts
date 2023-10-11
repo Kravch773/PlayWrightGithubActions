@@ -1,3 +1,5 @@
+import { expect, type Locator, type Page } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
 
 export class DateForm {
 

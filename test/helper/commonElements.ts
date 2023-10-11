@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test';
-import { BasePage } from './basePage';
+import { BasePage } from '../helper/basePage';
 
 export class CommonElements extends BasePage {
   readonly page: Page;

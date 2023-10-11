@@ -2,7 +2,6 @@ import { test, expect, Page } from '@playwright/test';
 import { CommonElements } from '../helper/commonElements';
 import { MainPage } from '../pages/main.page';
 import { ElementsPage } from '../pages/elements.page';
-import { BrowserStackAuth } from '../helper/browserStackAuth';
 
 const fullName_1 = 'AlexTest';
 const fullName_2 = 'JohnTest';
@@ -21,7 +20,6 @@ test.describe('test', () => {
   let commonElements;
   let mainPage;
   let elementsPage;
-  let browserStackAuth;
 
 
   test.beforeAll(async ({ browser }) => {
@@ -33,8 +31,6 @@ test.describe('test', () => {
     commonElements = new CommonElements(page);
     mainPage = new MainPage(page);
     elementsPage = new ElementsPage(page);
-    browserStackAuth = new BrowserStackAuth(page);
-
   });
 
   test('Go to Elements page and check text box ', async () => {
@@ -119,8 +115,6 @@ test.describe('test', () => {
   // });
   //
   test.afterAll(async ({},testInfo) => {
-    const status = testInfo.status;
-    await browserStackAuth.updateBrowserStackStatus(status);
     await context.close();
     await page.close();
   });

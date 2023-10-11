@@ -3,7 +3,6 @@ import { CommonElements } from '../helper/commonElements';
 import { MainPage } from '../pages/main.page';
 import { ElementsPage } from '../pages/elements.page';
 import { FormPage } from '../pages/form.page';
-import { BrowserStackAuth } from '../helper/browserStackAuth';
 
 const firstName_1 = 'Alex';
 const firstName_2 = 'John';
@@ -32,7 +31,6 @@ test.describe('test', () => {
   let mainPage;
   let elementsPage;
   let practiceForm;
-  let browserStackAuth;
 
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -44,7 +42,6 @@ test.describe('test', () => {
     mainPage = new MainPage(page);
     elementsPage = new ElementsPage(page);
     practiceForm = new FormPage(page);
-    browserStackAuth = new BrowserStackAuth(page);
   });
 
   test('Go to Elements page and check text box ', async ({}) => {
@@ -64,8 +61,6 @@ test.describe('test', () => {
   });
 
   test.afterAll(async ({},testInfo) => {
-    const status = testInfo.status;
-    await browserStackAuth.updateBrowserStackStatus(status);
     await context.close();
     await page.close();
   });
