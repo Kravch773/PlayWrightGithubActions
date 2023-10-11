@@ -26,7 +26,7 @@ jobs:
           retention-days: 30
       - name: Copy History
         if: always()
-        run: cp -r $(pwd)/docs/history/. $(pwd)/allure-results/history
+        run: cp -r $(pwd)/docs/history/. $(pwd)/allure-results
       - name: Generate Report
         if: always()
         run: npm run allure:generate # Name of the allure generate script
@@ -36,7 +36,7 @@ jobs:
         with:
           name: allure-results
           path: ./allure-results # Name of the folder with allure results
-      - name: Publishing Allure artifact to Github Actions
+      - name: Publishing Allure report artifact to Github Actions
         uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -48,3 +48,10 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: allure-report # The folder the action should deploy.
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        if: always()
+        with:
+          branch: main # The branch the action should deploy to.
+          folder: ./allure-report/history # The folder the action should deploy.
+          target-folder: /docs/history # The target folder in the branch.
