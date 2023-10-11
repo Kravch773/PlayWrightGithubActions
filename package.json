@@ -1,0 +1,27 @@
+{
+  "name": "PlayWrightBrowserStackDemoqa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "RunTests_Headless": "npx playwright test",
+    "RunTests_Headed": "npx playwright test --headed",
+    "postinstall": "npm update browserstack-node-sdk",
+    "RunTests-browserstack": "npx browserstack-node-sdk playwright test --config=./playwright.config.ts ",
+    "RunTests_Headed-browserstack": "npx browserstack-node-sdk playwright test --headed --config=./playwright.config.ts",
+    "open_HTML_PlaywrightReport": "npx playwright show-report",
+    "sample-test": "npx browserstack-node-sdk playwright test --config=./playwright.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.37.1",
+    "@types/node": "^20.7.1",
+    "browserstack-node-sdk": "^1.25.3",
+    "prettier": "^3.0.3"
+  },
+  "dependencies": {
+    "axios": "^1.5.1"
+  }
+}
