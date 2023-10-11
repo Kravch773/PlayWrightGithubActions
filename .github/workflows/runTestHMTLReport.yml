@@ -23,12 +23,6 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-    - name: Publishing report artifact to Github Actions
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-report
-        path: ./playwright-report
     - name: Deploy report
       uses: JamesIves/github-pages-deploy-action@4.1.4
       if: always()
