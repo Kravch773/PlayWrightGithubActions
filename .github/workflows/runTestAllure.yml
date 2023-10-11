@@ -27,6 +27,8 @@ jobs:
       - name: Copy History
         if: always()
         run: cp -r $(pwd)/docs/history/. $(pwd)/allure-results
+      - name: files list
+        run: ls $(pwd)/allure-results
       - name: Generate Report
         if: always()
         run: npm run allure:generate # Name of the allure generate script
