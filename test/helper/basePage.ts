@@ -8,72 +8,16 @@ export class BasePage {
     this.page = page;
   }
 
-  public get selectInput(): string {
-    return '//ngx-mat-select-search//input[@aria-label="dropdown search"]';
-  }
-
-  public get selectElement(): string {
-    return '//k2-select';
-  }
-
-  getSelectOptionFullMatch(label): string {
-    return `//mat-option/span[text()=" ${label} "]/..`;
-  }
-
-  getSelectValue(label): string {
-    return `//mat-option/span[contains(text(),"${label}")]/..`;
-  }
-
-  public getMatCalendarElementByLabelText(labelText): string {
-    return `//mat-calendar//td/button[contains(@aria-label,"${labelText}")]`;
-  }
-
-  public getMatCalendarMonthTab(): string {
-    return '//mat-calendar//td//div[contains(text()," MAY ")]';
-  }
-
-  public get chooseDateBtn(): string {
-    return '//button[@aria-label="Choose date"]';
-  }
-
-  public get chooseMonthAndYearBtn(): string {
-    return '//button[@aria-label="Choose month and year"]';
-  }
-
-  public get previousYearBtn(): string {
-    return `//button[@aria-label="Previous year"]`;
-  }
-
-  public get previousMonthBtn(): string {
-    return `//button[@aria-label="Previous month"]`;
-  }
-
-  public get firstYearOnPage(): string {
-    return `(//mat-calendar//td)[1]/button`;
-  }
-
-  public get lastYearOnPage(): string {
-    return `(//mat-calendar//td)[24]/button`;
-  }
-
-  public get previousYearsPageBtn(): string {
-    return `//mat-calendar//button[@aria-label="Previous 24 years"]`;
-  }
-
-  public get nextYearsPageBtn(): string {
-    return `//mat-calendar//button[@aria-label="Next 24 years"]`;
-  }
-
-  public get dropDownElement(): string {
-    return '//select';
-  }
-
   async openURL(path: string = ''): Promise<void> {
     await this.page.goto(`https://demoqa.com/${path}`);
   }
 
   async click(element: string): Promise<void> {
     await this.page.locator(element).click();
+  }
+
+  async scrollIntoView(element: string): Promise<void> {
+    await this.page.locator(element).scrollIntoViewIfNeeded();
   }
 
   async setValue(element: string, value: any): Promise<void> {
@@ -154,21 +98,6 @@ export class BasePage {
     return this.page.locator(element).innerText();
   }
 
-
-  async setDropDownByOptionValue(element: string, option: string): Promise<void> {
-    await this.page.locator(element).selectOption({ label: option });
-  }
-
-  async setSelectValue(element = this.selectElement, selectOption): Promise<void> {
-    await this.click(element);
-    // await this.setValue(this.selectInput, selectOption);
-    // if (await this.isElementExisting(this.getSelectOptionFullMatch(selectOption), 250)) {
-    //   await this.click(this.getSelectOptionFullMatch(selectOption));
-    //   return;
-    // }
-    await this.click(this.getSelectValue(selectOption));
-  }
-
   public convertStringToDate(date): Date {
     let newDateArr: string[];
     if (date.includes('/')) {
@@ -190,68 +119,10 @@ export class BasePage {
     return new Date(tempDate);
   }
 
-  public async clickMatCalendarElementByLabelText(labelText): Promise<void> {
-    await this.click(this.getMatCalendarElementByLabelText(labelText));
-  }
-
-  public async clickPreviousYearsPageBtn(): Promise<void> {
-    await this.click(this.previousYearsPageBtn);
-  }
-
-  public async clickNextYearsPageBtn(): Promise<void> {
-    await this.click(this.nextYearsPageBtn);
-  }
-
-  public async getMathCalendarAriaLabel(element): Promise<number> {
-    return Number(await this.getElementAttribute(element, 'aria-label'));
-  }
-
-  public async setMatCalendarYear(year: number): Promise<void> {
-    if (await this.getMathCalendarAriaLabel(this.firstYearOnPage) <= year && await this.getMathCalendarAriaLabel(this.lastYearOnPage) >= year) {
-      await this.clickMatCalendarElementByLabelText(year);
-      return;
-    }
-    if (await this.getMathCalendarAriaLabel(this.firstYearOnPage) > year) {
-      await this.clickPreviousYearsPageBtn();
-    }
-    if (await this.getMathCalendarAriaLabel(this.lastYearOnPage) < year) {
-      await this.clickNextYearsPageBtn();
-    }
-    await this.setMatCalendarYear(year);
-  }
-
-  public async setMatCalendarMonth(month: string): Promise<void> {
-    await this.waitForDisplayed(this.previousYearBtn);
-    await this.clickMatCalendarElementByLabelText(month);
-  }
-
-  public async setMatCalendarDay(day: number): Promise<void> {
-    await this.waitForDisplayed(this.previousMonthBtn);
-    await this.clickMatCalendarElementByLabelText(` ${day},`);
-  }
-
-  async setDateValue(calendarInput, value): Promise<void> {
-    await this.click(calendarInput);
-    if (await this.isElementExisting(this.getMatCalendarMonthTab(), 2000)) {
-      await this.click(this.chooseDateBtn);
-      await this.click(this.chooseMonthAndYearBtn);
-    } else {
-      await this.click(this.chooseMonthAndYearBtn);
-    }
-    await this.waitForDisplayed(this.chooseDateBtn);
-    let date = this.convertStringToDate(value);
-    await this.setMatCalendarYear(date.getFullYear());
-    await this.setMatCalendarMonth(date.toLocaleString('en-US', { month: 'long' }));
-    await this.setMatCalendarDay(date.getDate());
-  }
-
   async getElementValue(element) {
     return await this.page.locator(element).inputValue();
   }
 
-  async getDropDownValueText(dropDownElement = this.dropDownElement): Promise<string> {
-    return await this.getElementText(`//option[@value="${await this.getElementValue(dropDownElement)}"]`);
-  }
 
   async isRadioBtnSelected(element: string): Promise<boolean> {
     return await this.page.locator(element).isChecked();
@@ -263,7 +134,8 @@ export class BasePage {
     }
     return true;
   }
-  async uploadFile(uploadFileInput,filePath): Promise<void> {
+
+  async uploadFile(uploadFileInput, filePath): Promise<void> {
     await this.page.locator(uploadFileInput).setInputFiles(filePath);
   }
 }

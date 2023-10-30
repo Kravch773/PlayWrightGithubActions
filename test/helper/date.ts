@@ -5,14 +5,10 @@ export class DateForm {
 
   static getCurrentDate(fullYear = false, monthWithZeros = false): string {
     let today = new Date();
-    // let date: string;
     let month = (today.getMonth() + 1).toString();
     if (today.getMonth() < 9) {
       month = '0' + (today.getMonth() + 1).toString();
     }
-    // if (today.getDate() < 10) {
-    //   date = '0' + (today.getDate() + 1).toString();
-    // }
     let todayDate = month + '/' + today.getDate() + '/' + today.getFullYear();
     if (monthWithZeros == false && fullYear == false) {
       todayDate = this.createStandardDateForm(todayDate);

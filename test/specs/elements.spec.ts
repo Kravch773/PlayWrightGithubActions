@@ -25,6 +25,10 @@ test.describe('test', () => {
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
+    await page.setViewportSize({
+      width: 1920,
+      height: 1080,
+    });
   });
 
   test.beforeEach(async () => {
@@ -37,7 +41,7 @@ test.describe('test', () => {
     await mainPage.openMainPage();
     await mainPage.clickElementsBtn();
   });
-  test('check text box ', async () => {
+  test('Verify text boxes ', async () => {
     await elementsPage.clickTextBoxBtn();
     expect(await elementsPage.getFullNameInputPH()).toBe('Full Name');
     await elementsPage.setTextBoxFields(fullName_1, email_1, currentAddress_1, permanentAddress_1);
@@ -95,25 +99,6 @@ test.describe('test', () => {
     expect(await elementsPage.isNoButtonActive()).toBe(false);
   });
 
-  // test('Verify service documents', async () => {
-  //   let newPage = await context.newPage(); // Новая страница в том же контексте
-  //   let addService_Document = new addServiceDocument(newPage);
-  //   await addService_Document.addDocumentByServiceName(serviceName, assignmentId, pass_SignIn.clientId);
-  //   await common_Elements.refreshPage();
-  //   await initiatedServices_Page.clickAddServiceDocuments();
-  //   await initiatedServices_Page.clickDocumentChbByName();
-  //   await initiatedServices_Page.clickCancelDocumentBtn();
-  //   expect(await initiatedServices_Page.isNoDocumentsLabelDisplayed()).toBe(true);
-  //   await initiatedServices_Page.clickAddServiceDocuments();
-  //   await initiatedServices_Page.clickDocumentChbByName();
-  //   await initiatedServices_Page.clickAddDocuments();
-  //   expect(date.createStandardDateForm(await initiatedServices_Page.getDocumentUploadDate())).toContain(startDate);
-  //   await initiatedServices_Page.removeServiceDocument();
-  //   expect(await initiatedServices_Page.isDocumentRemovedMsgDisplayed()).toBe(true);
-  //   await addService_Document.removeDocumentByName(serviceName);
-  //   await newPage.close();
-  // });
-  //
   test.afterAll(async ({},testInfo) => {
     await context.close();
     await page.close();
